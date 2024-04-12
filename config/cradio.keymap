@@ -58,7 +58,7 @@
             &trans     &trans     &trans     &trans     &trans         &trans     &trans     &trans     &trans     &trans
             &trans     &trans     &trans     &trans     &trans         &kp ESC    &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT
             &trans     &trans     &trans     &trans     &trans         &kp INS    &kp HOME   &kp PG_DN  &kp PG_UP  &kp END
-                                             &trans     &trans         &trans     &trans
+                                             &trans     &trans         &kp DEL     &trans
             >;
         };
 
@@ -73,10 +73,10 @@
 
         media_layer {
             bindings = <
-            &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3 &bt BT_DISC 4        &trans     &trans       &trans       &trans       &trans
-            &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4         &trans     &kp C_VOL_DN &kp C_VOL_UP &trans       &trans
-            &bt BT_CLR_ALL    &trans        &trans        &sys_reset    &bootloader               &trans     &kp C_MUTE   &trans       &trans       &trans
-                                                      &trans        &trans               &trans     &trans
+            &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3 &bt BT_DISC 4        &trans     &kp C_PREV       &trans       &trans       &CP_NEXT
+            &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4         &trans     &kp CP_RW    &kp C_VOL_DN &kp C_VOL_UP &kp CP_FF
+            &bt BT_CLR_ALL    &trans        &trans        &sys_reset    &bootloader      &trans     &trans       &kp C_MUTE   &trans       &trans 
+                                                      &trans        &trans               &trans     &kp C_PP
             >;
         };
 
