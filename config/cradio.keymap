@@ -55,6 +55,24 @@
             then-layer = <FN>;
         };
     };
+    macros {
+        bt_sel: bt_sel {
+            // ...
+            compatible = "zmk,behavior-macro-one-param";
+            #bindibt_connng-cells = <1>; // Must be 1
+            bindings =
+              <&macro_param_1to1>,
+              <&bt BT_SEL MACRO_PLACEHOLDER>;
+        };
+        bt_dis: bt_dis {
+            // ...
+            compatible = "zmk,behavior-macro-one-param";
+            #bindibt_connng-cells = <1>; // Must be 1
+            bindings =
+              <&macro_param_1to1>,
+              <&bt BT_SEL MACRO_PLACEHOLDER>;
+        };
+    };
 
     keymap {
         compatible = "zmk,keymap";
@@ -65,12 +83,12 @@
             &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  A       │  S       │  D       │  F       │  G       │   │  H       │  J       │  K       │  L       │ ;:      │
-            HRML(A,        S,         D)     &kp F     &kp G          &kp H      &kp J        HRMR(K,         L,        SEMI)
+            HRML(A,        S,      D)       &lt MSE F   &kp G          &kp H      &lt SYM J   HRMR(K,     L,       SEMI)
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  Z       │  X       │  C       │  V       │  B       │   │  N       │  M       │ , <      │ . >      │ / ?      │
-            &kp Z      &kp X      &lt MSE C   &lt NAV V   &kp B       &kp N      &lt NUM M   &lt SYM COMMA  &kp DOT    &kp FSLH
+            &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                            &shift_td  &kp BACKSPACE  &kp SPACE &kp ENTER
+                                         &shift_td  &lt NAV BACKSPACE  &lt NUM SPACE &kp ENTER
         //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
             >;
         };
