@@ -121,8 +121,8 @@
         media_layer {
             bindings = <
             &bootloader    &sys_reset &trans    &trans   &trans        &trans     &kp C_PREV   &trans       &trans       &kp C_NEXT
-            &trans         &bt_ht 4 4   &bt_ht 5 5  &trans   &trans        &trans     &kp C_RW     &kp C_VOL_DN &kp C_VOL_UP &kp C_FF
-            &bt BT_CLR_ALL &bt_ht 1 1  &bt_ht 2 2  &bt_ht 3 3 &trans        &trans     &trans       &kp C_MUTE   &trans       &trans 
+            &trans         &bt_ht 3 3   &bt_ht 4 4  &trans   &trans        &trans     &kp C_RW     &kp C_VOL_DN &kp C_VOL_UP &kp C_FF
+            &bt BT_CLR_ALL &bt_ht 0 0  &bt_ht 1 1  &bt_ht 2 2 &trans        &trans     &trans       &kp C_MUTE   &trans       &trans 
                                                 &trans    &trans       &kp C_PP   &trans
             >;
         };
