@@ -16,6 +16,8 @@
 #define NUM 4
 #define SYM 5
 #define FN 6
+#define BCON 7
+#define BDIS 8
 
 &lt {
     tapping-term-ms = <220>;
@@ -47,7 +49,7 @@
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <220>;
-            bindings = <&bt_sel>, <&bt_dis>;
+            bindings = <&bt_dis>, <&bt_sel>;
         };
     };
 
@@ -77,7 +79,7 @@
             #binding-cells = <1>; // Must be 1
             bindings =
               <&macro_param_1to1>,
-              <&bt BT_SEL MACRO_PLACEHOLDER>;
+              <&bt BT_DISC MACRO_PLACEHOLDER>;
         };
     };
 
@@ -120,10 +122,10 @@
 
         media_layer {
             bindings = <
-            &bootloader    &sys_reset &trans    &trans   &trans        &trans     &kp C_PREV   &trans       &trans       &kp C_NEXT
-            &trans         &bt_ht 3 3   &bt_ht 4 4  &trans   &trans        &trans     &kp C_RW     &kp C_VOL_DN &kp C_VOL_UP &kp C_FF
-            &bt BT_CLR_ALL &bt_ht 0 0  &bt_ht 1 1  &bt_ht 2 2 &trans        &trans     &trans       &kp C_MUTE   &trans       &trans 
-                                                &trans    &trans       &kp C_PP   &trans
+            &bootloader    &sys_reset &trans    &trans   &trans          &trans     &kp C_PREV   &trans       &trans       &kp C_NEXT
+            &trans         &bt_ht 3 3   &bt_ht 4 4  &trans   &trans      &trans     &kp C_RW     &kp C_VOL_DN &kp C_VOL_UP &kp C_FF
+            &bt BT_CLR_ALL &bt_ht 0 0  &bt_ht 1 1  &bt_ht 2 2 &trans     &trans     &trans       &kp C_MUTE   &trans       &trans 
+                                                &trans    &trans         &kp C_PP   &trans
             >;
         };
 
@@ -151,6 +153,22 @@
             &trans     &kp F4     &kp F5     &kp F6     &kp F11        &trans     &trans     &trans     &trans     &trans
             &trans     &kp F1     &kp F2     &kp F3     &kp F12        &trans     &trans     &trans     &trans     &trans
                                              &trans     &trans         &trans &trans
+            >;
+        };
+        bt_conn {
+            bindings = <
+            &trans     &trans     &trans     &trans     &trans         &trans     &trans          &trans          &trans       &trans
+            &trans     &trans     &trans     &trans     &trans         &trans     &bt BT_SEL 3    &bt BT_SEL 4    &trans       &trans
+            &trans     &trans     &trans     &trans     &trans         &trans     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2 &trans
+                                             &trans     &trans         &trans     &trans
+            >;
+        };
+        bt_disc {
+            bindings = <
+            &trans     &trans     &trans     &trans     &trans         &trans     &trans          &trans          &trans       &trans
+            &trans     &trans     &trans     &trans     &trans         &trans     &bt BT_SEL 3    &bt BT_SEL 4    &trans       &trans
+            &trans     &trans     &trans     &trans     &trans         &trans     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2 &trans
+                                             &trans     &trans         &trans     &trans
             >;
         };
     };
