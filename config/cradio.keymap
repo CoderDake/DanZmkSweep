@@ -36,7 +36,6 @@
             quick-tap-ms = <150>;
             require-prior-idle-ms = <100>;
             bindings = <&kp>, <&kp>;
-            retro-tap;
         };
         shift_td: shift_tap_dance {
             compatible = "zmk,behavior-tap-dance";
