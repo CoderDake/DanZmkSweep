@@ -1,0 +1,1 @@
+Inspiration taken from: https://github.com/benvallack/zmk-config-piano/blob/main/config/boards/shields/piano/piano.keymap
