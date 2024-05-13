@@ -71,12 +71,12 @@
             then-layer = <FN>;
         };
         bt_con_layer {
-            if-layers = <NAV NUM>;
-            then-layer = <BCON>;
+            if-layers = <1 4>;
+            then-layer = <7>;
         };
         bt_dis_layer {
-            if-layers = <NAV SYM>;
-            then-layer = <BDIS>;
+            if-layers = <1 5>;
+            then-layer = <8>;
         };
     };
     macros {
