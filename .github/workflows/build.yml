@@ -4,7 +4,7 @@ jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
     steps:
-      - run: |
+      run: |
         set -x
         GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
         sed -i "s|(CONFIG_ZMK_KEYBOARD_NAME="Dake ){{HASH}}\"|\1$git_hash|g" config/cradio.conf
