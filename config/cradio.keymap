@@ -6,8 +6,25 @@
 #include <dt-bindings/zmk/bt.h>
 
 // Home row mods macro
-#define HRML(k1,k2,k3,k4) &ht LGUI k1  &ht LALT k2  &ht LCTRL k3  &ht LSHFT k4
-#define HRMR(k1,k2,k3,k4) &ht RSHFT k1  &ht RCTRL k2  &ht RALT k3  &ht RGUI k4
+#define HRML(k1,k2,k3) &ht LGUI k1  &ht LALT k2  &ht LCTRL k3  
+#define HRMR(k2,k3,k4) &ht RCTRL k2 &ht RALT k3  &ht RGUI k4
+
+#define DEFAULT 0
+#define NAV 1
+#define MSE 2
+#define MED 3
+#define NUM 4
+#define SYM 5
+#define FN 6
+#define BCON 7
+#define BDIS 8
+
+&lt {
+    tapping-term-ms = <220>;
+    quick-tap-ms = <150>;
+    require-prior-idle-ms = <100>;
+    retro-tap;
+};
 
 / {
     behaviors {
@@ -20,17 +37,56 @@
             require-prior-idle-ms = <100>;
             bindings = <&kp>, <&kp>;
         };
+        h_bt: hold_tap_bt {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <500>;
+            require-prior-idle-ms = <100>;
+            bindings = <&kp>, <&kp>;
+        };
+        shift_td: shift_tap_dance {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&sk LSHIFT>, <&kp CAPSLOCK>;
+        };
+        bt_ht: bluetooth_hold_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            bindings = <&bt_dis>, <&bt_sel>;
+        };
     };
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
         media_layer {
             if-layers = <1 2>;
-            then-layer = <3>;
+            then-layer = <MED>;
         };
         fn_layer {
             if-layers = <4 5>;
-            then-layer = <6>;
+            then-layer = <FN>;
+        };
+    };
+    macros {
+        bt_sel: bt_sel {
+            // ...
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>; // Must be 1
+            bindings =
+              <&macro_param_1to1>,
+              <&bt BT_SEL MACRO_PLACEHOLDER>;
+        };
+        bt_dis: bt_dis {
+            // ...
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>; // Must be 1
+            bindings =
+              <&macro_param_1to1>,
+              <&bt BT_DISC MACRO_PLACEHOLDER>;
         };
     };
 
@@ -43,22 +99,22 @@
             &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  A       │  S       │  D       │  F       │  G       │   │  H       │  J       │  K       │  L       │ ;:      │
-            HRML(A,        S,         D,         F)     &kp G          &kp H      HRMR(J,        K,         L,        SEMI)
+            HRML(A,        S,      D)       &lt MSE F   &kp G          &kp H      &lt SYM J   HRMR(K,     L,       SEMI)
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│  Z       │  X       │  C       │  V       │  B       │   │  N       │  M       │ , <      │ . >      │ / ?      │
-            &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH
+           &kp Z       &kp X       &kp C    &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH
         //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                            &lt 2 TAB &lt 1 BACKSPACE  &lt 4 SPACE &lt 5 ENTER
+                                         &shift_td  &lt NAV BACKSPACE  &lt NUM SPACE &kp ENTER
         //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
             >;
         };
 
         nav_layer {
             bindings = <
-            &trans     &trans     &trans     &trans     &trans         &trans     &trans     &trans     &trans     &trans
-            &trans     &trans     &trans     &trans     &trans         &kp ESC    &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT
+            &kp ESC     &trans     &trans     &trans     &trans         &trans     &trans     &trans    &mo BCON    &mo BDIS
+            &kp TAB    &trans     &trans     &trans     &trans         &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT   &trans
             &trans     &trans     &trans     &trans     &trans         &kp INS    &kp HOME   &kp PG_DN  &kp PG_UP  &kp END
-                                             &trans     &trans         &kp DEL     &trans
+                                             &trans     &trans         &kp DEL    &trans
             >;
         };
 
@@ -73,10 +129,10 @@
 
         media_layer {
             bindings = <
-            &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3 &bt BT_DISC 4        &trans     &kp C_PREV   &trans       &trans       &kp C_NEXT
-            &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4         &trans     &kp C_RW     &kp C_VOL_DN &kp C_VOL_UP &kp C_FF
-            &bt BT_CLR_ALL    &trans        &trans        &sys_reset    &bootloader      &trans     &trans       &kp C_MUTE   &trans       &trans 
-                                                      &trans        &trans               &kp C_PP   &trans
+            &bootloader    &sys_reset &trans    &trans   &trans          &trans     &kp C_PREV   &trans       &trans       &kp C_NEXT
+            &trans         &bt_ht 3 3   &bt_ht 4 4  &trans   &trans      &kp C_RW     &kp C_VOL_DN &kp C_VOL_UP &kp C_FF   &trans
+            &bt BT_CLR_ALL &bt_ht 0 0  &bt_ht 1 1  &bt_ht 2 2 &trans     &trans     &trans       &kp C_MUTE   &trans       &trans 
+                                                &trans    &trans         &kp C_PP   &trans
             >;
         };
 
@@ -100,10 +156,26 @@
 
         fn_layer {
             bindings = <
-            &trans     &kp F7     &kp F8     &kp F9     &kp F10        &trans     &trans     &trans     &trans     &trans
+            &trans     &kp F7     &kp F8     &kp F9     &kp F10        &trans     &trans     &trans     &sys_reset &bootloader
             &trans     &kp F4     &kp F5     &kp F6     &kp F11        &trans     &trans     &trans     &trans     &trans
-            &trans     &kp F1     &kp F2     &kp F3     &kp F12        &bootloader &sys_reset     &trans     &trans     &trans
-                                             &trans     &trans         &trans     &trans
+            &trans     &kp F1     &kp F2     &kp F3     &kp F12        &trans     &trans     &trans     &trans     &trans
+                                             &trans     &trans         &trans &trans
+            >;
+        };
+        bt_conn {
+            bindings = <
+            &trans     &trans        &trans         &trans        &trans            &trans     &trans     &trans     &trans     &trans
+            &trans     &bt BT_SEL 3  &bt BT_SEL 4   &trans        &trans            &trans     &trans     &trans     &trans     &trans
+            &trans     &bt BT_SEL 0  &bt BT_SEL 1   &bt BT_SEL 2  &bootloader       &trans     &trans     &trans     &trans     &trans
+                                                    &trans   &trans            &trans     &trans
+            >;
+        };
+        bt_disc {
+            bindings = <
+            &trans     &trans        &trans         &trans        &bt BT_CLR_ALL    &trans     &trans     &trans     &trans     &trans
+            &trans     &bt BT_DISC 3 &bt BT_DISC 4  &trans        &trans            &trans     &trans     &trans     &trans     &trans
+            &trans     &bt BT_DISC 0 &bt BT_DISC 1  &bt BT_DISC 2 &trans            &trans     &trans     &trans     &trans     &trans
+                                                    &trans        &trans            &trans     &trans
             >;
         };
     };
